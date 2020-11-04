@@ -5,6 +5,9 @@ inputs:
   words:
     required: true
     description: 'a list of words to check in the PR diff'
+  github-token:
+    required: true
+    description: 'github token to access pr diff'
 runs:
   using: 'node12'
   main: 'dist/index.js'

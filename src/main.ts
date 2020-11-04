@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import * as core from '@actions/core'
 import {textContains} from './text_contains'
-const {GitHub, context} = require('@actions/github')
+import * as github from '@actions/github'
 const parse = require('parse-diff')
 
 async function run(): Promise<void> {
@@ -14,9 +14,9 @@ async function run(): Promise<void> {
       .filter(x => x !== '')
 
     const token = core.getInput('github-token', {required: true})
-    const github = new GitHub(token, {})
-    const diff_url = context.payload.pull_request.diff_url
-    const result = await github.request(diff_url)
+    const octokit = github.getOctokit(token)
+    const diff_url = github.context?.payload?.pull_request?.diff_url
+    const result = await octokit.request(diff_url)
     const files = parse(result.data)
 
     core.exportVariable('files', files)

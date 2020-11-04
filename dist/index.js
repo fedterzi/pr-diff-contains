@@ -1458,9 +1458,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-require-imports */
 const core = __importStar(__webpack_require__(186));
 const text_contains_1 = __webpack_require__(61);
-const { GitHub, context } = __webpack_require__(438);
+const github = __importStar(__webpack_require__(438));
 const parse = __webpack_require__(833);
 function run() {
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const words = core
@@ -1469,9 +1470,9 @@ function run() {
                 .map(s => s.trim())
                 .filter(x => x !== '');
             const token = core.getInput('github-token', { required: true });
-            const github = new GitHub(token, {});
-            const diff_url = context.payload.pull_request.diff_url;
-            const result = yield github.request(diff_url);
+            const octokit = github.getOctokit(token);
+            const diff_url = (_c = (_b = (_a = github.context) === null || _a === void 0 ? void 0 : _a.payload) === null || _b === void 0 ? void 0 : _b.pull_request) === null || _c === void 0 ? void 0 : _c.diff_url;
+            const result = yield octokit.request(diff_url);
             const files = parse(result.data);
             core.exportVariable('files', files);
             core.setOutput('files', files);

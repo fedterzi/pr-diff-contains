@@ -1454,6 +1454,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const core = __importStar(__webpack_require__(186));
 const text_contains_1 = __webpack_require__(61);
 const { GitHub, context } = __webpack_require__(438);
@@ -1474,15 +1476,15 @@ function run() {
             core.exportVariable('files', files);
             core.setOutput('files', files);
             let changes = '';
-            files.forEach(function (file) {
-                file.chunks.forEach(function (chunk) {
-                    chunk.changes.forEach(function (change) {
+            for (const file of files) {
+                for (const chunk of file) {
+                    for (const change of chunk.changes) {
                         if (change.add) {
                             changes += change.content;
                         }
-                    });
-                });
-            });
+                    }
+                }
+            }
             const includesWords = yield text_contains_1.textContains(changes, words);
             if (includesWords) {
                 core.setFailed(`The PR contains one or more of the following words: ${words.join(', ')}`);

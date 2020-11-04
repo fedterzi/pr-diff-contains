@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import * as core from '@actions/core'
-import { textContains } from './text_contains'
+import {textContains} from './text_contains'
 const {GitHub, context} = require('@actions/github')
 const parse = require('parse-diff')
 
@@ -20,20 +22,24 @@ async function run(): Promise<void> {
     core.exportVariable('files', files)
     core.setOutput('files', files)
 
-    let changes: string = ''
-
-    files.forEach(function (file: {additions: number; chunks: any[]}) {
-      file.chunks.forEach(function (chunk) {
-        chunk.changes.forEach(function (change: {add: any; content: string}) {
+    let changes = ''
+    for (const file of files) {
+      for (const chunk of file) {
+        for (const change of chunk.changes) {
           if (change.add) {
             changes += change.content
           }
-        })
-      })
-    })
+        }
+      }
+    }
+
     const includesWords = await textContains(changes, words)
     if (includesWords) {
-      core.setFailed(`The PR contains one or more of the following words: ${words.join(', ')}`)
+      core.setFailed(
+        `The PR contains one or more of the following words: ${words.join(
+          ', '
+        )}`
+      )
     } else {
       core.exportVariable('diff', changes)
       core.setOutput('diff', changes)

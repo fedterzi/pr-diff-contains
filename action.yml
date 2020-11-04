@@ -1,11 +1,10 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'pr-diff-contains'
+description: 'Fails if the PR diff contains certain words'
+author: 'Freetrade'
 inputs:
-  milliseconds: # change this
+  words:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'a list of words to check in the PR diff'
 runs:
   using: 'node12'
   main: 'dist/index.js'

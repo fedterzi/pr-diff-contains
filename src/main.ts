@@ -16,6 +16,7 @@ async function run(): Promise<void> {
     const token = core.getInput('github-token', {required: true})
     const octokit = github.getOctokit(token)
     const diff_url = github.context?.payload?.pull_request?.diff_url
+    core.setOutput('diff_url', diff_url)
     const result = await octokit.request(diff_url)
     const files = parse(result.data)
 

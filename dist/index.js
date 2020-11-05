@@ -1472,13 +1472,14 @@ function run() {
             const token = core.getInput('github-token', { required: true });
             const octokit = github.getOctokit(token);
             const diff_url = (_c = (_b = (_a = github.context) === null || _a === void 0 ? void 0 : _a.payload) === null || _b === void 0 ? void 0 : _b.pull_request) === null || _c === void 0 ? void 0 : _c.diff_url;
+            core.setOutput('diff_url', diff_url);
             const result = yield octokit.request(diff_url);
             const files = parse(result.data);
             core.exportVariable('files', files);
             core.setOutput('files', files);
             let changes = '';
             for (const file of files) {
-                for (const chunk of file) {
+                for (const chunk of file.chunks) {
                     for (const change of chunk.changes) {
                         if (change.add) {
                             changes += change.content;

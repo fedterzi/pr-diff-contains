@@ -25,7 +25,7 @@ async function run(): Promise<void> {
 
     let changes = ''
     for (const file of files) {
-      for (const chunk of file) {
+      for (const chunk of file.chunks) {
         for (const change of chunk.changes) {
           if (change.add) {
             changes += change.content

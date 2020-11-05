@@ -1,14 +1,14 @@
-name: "Check forbidden words"
+name: 'Check forbidden words'
 on: [pull_request]
 
 jobs:
   check_pr:
     runs-on: ubuntu-latest
     steps:
-    - name: Check forbidden words
-      uses: fedterzi/pr-diff-contains@releases/v1
-      with:
-        github-token: ${{github.token}}
-        words: |
+      - name: Check forbidden words
+        uses: fedterzi/pr-diff-contains@releases/v1
+        with:
+          github-token: ${{github.token}}
+          words: |
             "Cache-Control"
-            "cache-control"       
+            "cache-control"

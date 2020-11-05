@@ -34,6 +34,9 @@ async function run(): Promise<void> {
       }
     }
 
+    core.info(changes)
+    core.info(`words are ${words.join()}`)
+
     const includesWords = await textContains(changes, words)
     if (includesWords) {
       core.setFailed(

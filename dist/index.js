@@ -1487,6 +1487,8 @@ function run() {
                     }
                 }
             }
+            core.info(changes);
+            core.info(`words are ${words.join()}`);
             const includesWords = yield text_contains_1.textContains(changes, words);
             if (includesWords) {
                 core.setFailed(`The PR contains one or more of the following words: ${words.join(', ')}`);

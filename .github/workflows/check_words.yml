@@ -10,5 +10,5 @@ jobs:
         with:
           github-token: ${{github.token}}
           words: |
-            "Cache-Control"
-            "cache-control"
+            Cache-Control
+            cache-control

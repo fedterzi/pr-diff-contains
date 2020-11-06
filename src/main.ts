@@ -16,6 +16,7 @@ async function run(): Promise<void> {
     const token = core.getInput('github-token', {required: true})
     const octokit = github.getOctokit(token)
     const diff_url = github.context?.payload?.pull_request?.diff_url
+    core.setOutput('diff_url', diff_url)
     const result = await octokit.request(diff_url)
     const files = parse(result.data)
 
@@ -24,7 +25,7 @@ async function run(): Promise<void> {
 
     let changes = ''
     for (const file of files) {
-      for (const chunk of file) {
+      for (const chunk of file.chunks) {
         for (const change of chunk.changes) {
           if (change.add) {
             changes += change.content
@@ -32,6 +33,9 @@ async function run(): Promise<void> {
         }
       }
     }
+
+    core.info(changes)
+    core.info(`words are ${words.join()}`)
 
     const includesWords = await textContains(changes, words)
     if (includesWords) {
